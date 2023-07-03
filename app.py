@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import NoSuchElementException
 from webdriver_manager.chrome import ChromeDriverManager
 
 from config import username, password, resident_map
@@ -23,7 +24,7 @@ ticket_property_xpath = "/html/body/div[1]/div[19]/div/main/div/div/div/div/div[
 ticket_unit_xpath = "/html/body/div[1]/div[19]/div/main/div/div/div/div/div[2]/div/div/table/tbody/tr[11]/td[2]/a/strong"
 property_xpath = "/html/body/table[2]/tbody/tr[2]/td/table/tbody/tr[1]/td[4]/a"
 ledger_xpath = "/html/body/table[2]/tbody/tr[4]/td/table/tbody/tr/td/table[3]/tbody/tr[2]/td/table/tbody/tr[2]/td[4]/a[4]"
-
+former_res_xpath = "/html/body/table[2]/tbody/tr[4]/td/table/tbody/tr/td/table[3]/tbody/tr[1]/td/table/tbody/tr/td[3]/input[2]"
 
 # Functions
 
@@ -76,9 +77,22 @@ def nav_to_unit(unit):
     search.send_keys(Keys.ENTER)
 
 
-def open_ledger():
-    ledger_link = driver.find_element(By.XPATH, ledger_xpath)
-    ledger_link.click()
+def open_ledger(unit):
+    try:
+        ledger_link = driver.find_element(By.XPATH, ledger_xpath)
+        ledger_link.click()
+    except NoSuchElementException:
+        find_former(unit)
+
+
+def find_former(unit):
+    former_resident = driver.find_element(By.XPATH, former_res_xpath)
+    former_resident.click()
+    spacenum = driver.find_element(By.NAME, "spacenum")
+    spacenum.clear()
+    spacenum.send_keys(unit)
+    spacenum.send_keys(Keys.ENTER)
+    open_ledger(unit)
 
 
 # open first page
@@ -96,4 +110,4 @@ def open_ticket():
     login(username, password)
     nav_to_property(property)
     nav_to_unit(unit)
-    open_ledger()
+    open_ledger(unit)

@@ -23,12 +23,11 @@ ticket_list_xpath = "/html/body/div[1]/div[18]/div/main/div/div/div/div[2]/div/d
 ticket_property_xpath = "/html/body/div[1]/div[19]/div/main/div/div/div/div/div[2]/div/div/table/tbody/tr[6]/td[2]/strong/a"
 ticket_unit_xpath = "/html/body/div[1]/div[19]/div/main/div/div/div/div/div[2]/div/div/table/tbody/tr[11]/td[2]/a/strong"
 property_xpath = "/html/body/table[2]/tbody/tr[2]/td/table/tbody/tr[1]/td[4]/a"
-ledger_xpath = "/html/body/table[2]/tbody/tr[4]/td/table/tbody/tr/td/table[3]/tbody/tr[2]/td/table/tbody/tr[2]/td[4]/a[4]"
+ledger_xpath = "/html/body/table[2]/tbody/tr[4]/td/table/tbody/tr/td/table[3]/tbody/tr[2]/td/table/tbody/tr[last()]/td[4]/a[4]"
 former_res_xpath = "/html/body/table[2]/tbody/tr[4]/td/table/tbody/tr/td/table[3]/tbody/tr[1]/td/table/tbody/tr/td[3]/input[2]"
 
+
 # Functions
-
-
 def login(username, password):
     username_input = driver.find_element(By.NAME, "username")
     password_input = driver.find_element(By.NAME, "password")
